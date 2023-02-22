@@ -10,12 +10,10 @@ let userdata = [];
 let editId = null;
 
 // get data from localstorage...
-let objStr = localStorage.getItem('users');
-userdata = JSON.parse(objStr);
-  console.log(userdata);
+userdata = JSON.parse(localStorage.getItem('users')) ?? [];
 
 
-  displayINfo();
+
 adduserBtn.onclick = () => {
     const name = userText.value;
     const age = Agecount.value;
@@ -23,7 +21,6 @@ adduserBtn.onclick = () => {
         user: name,
         userage: age
     }
-
     if(editId!=null){
         // edit
 
@@ -32,9 +29,6 @@ adduserBtn.onclick = () => {
         // insert
         userdata.push(adddata);
     }
-   
-  
-
     saveInfo(userdata);
     userText.value = '';
     Agecount.value = '';
@@ -43,45 +37,39 @@ adduserBtn.onclick = () => {
 
 }
 
-
-
-
 function saveInfo(userdata) {
     let str = JSON.stringify(userdata)
     localStorage.setItem('users', str);
 
 }
 
-
-
 function displayINfo() {
 
     let table = '';
-    userdata.forEach((data, i) => {
-        table +=
-            `
-        <tr>
-        <th scope="row">${i+1}</th>
-        <td>${data.user}</td>
-        <td>${data.userage}</td>
+        userdata.forEach((data, i) => {
+            table +=
+                `
+            <tr>
+            <th scope="row">${i+1}</th>
+            <td>${data.user}</td>
+            <td>${data.userage}</td>
+            
+            <td>
+                <span class="dlt-btn" onclick=' deleteInfo(${i})'><i
+                        class=" fa-regular fa-trash-can "></i></span>
+                <span class="dlt-btn" onclick=' editInfo(${i})'><i
+                        class="fa-regular fa-pen-to-square"></i></span>
+            </td>
+            
+        </tr>
+            
+        `
         
-        <td>
-            <span class="dlt-btn" onclick=' deleteInfo(${i})'><i
-                    class=" fa-regular fa-trash-can "></i></span>
-            <span class="dlt-btn" onclick=' editInfo(${i})'><i
-                    class="fa-regular fa-pen-to-square"></i></span>
-        </td>
-        
-    </tr>
-        
-     `
-     
-    });
-    displayRecord.innerHTML = table;
+        });
 
-
+        displayRecord.innerHTML = table;
 }
-
+displayINfo()
 
 function editInfo(id) {
 
